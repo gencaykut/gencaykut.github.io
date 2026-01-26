@@ -3,10 +3,513 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Emlak Asistanı</title>
+  <title>Emlak Asistanı | Gayrimenkul Profesyonelleri için İlan, CRM ve Fiyatlama</title>
+  <meta name="description" content="Emlak Asistanı: ilan analizi, m² hesaplama, emsal kıyas, CRM ve PDF sunumları tek yerde. Tarayıcı içinde, hızlı ve veri odaklı." />
+  <meta name="theme-color" content="#0b1220" />
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a2e;
+      --muted:#9fb0d0;
+      --text:#eef3ff;
+      --line:rgba(255,255,255,.10);
+      --accent:#5aa7ff;
+      --accent2:#8bffcc;
+      --shadow:0 18px 60px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(90,167,255,.25), transparent 55%),
+        radial-gradient(900px 500px at 85% 20%, rgba(139,255,204,.18), transparent 55%),
+        radial-gradient(1200px 600px at 50% 100%, rgba(90,167,255,.12), transparent 60%),
+        var(--bg);
+      line-height:1.5;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 70px}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      position:sticky; top:0; z-index:20;
+      padding:14px 0;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.85), rgba(11,18,32,.35));
+      border-bottom:1px solid var(--line);
+    }
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none}
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(90,167,255,.25);
+    }
+    .brand b{letter-spacing:.2px}
+    nav{display:flex; gap:14px; align-items:center}
+    nav a{
+      text-decoration:none; color:var(--muted);
+      font-weight:600; font-size:13px;
+      padding:8px 10px; border-radius:12px;
+      border:1px solid transparent;
+    }
+    nav a:hover{color:var(--text); border-color:var(--line); background:rgba(255,255,255,.04)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      text-decoration:none; font-weight:800;
+      padding:12px 16px; border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); border-color:rgba(255,255,255,.22); background:rgba(255,255,255,.08)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent), #3b74ff);
+      border-color: transparent;
+      box-shadow: 0 14px 40px rgba(90,167,255,.30);
+    }
+    .btn.primary:hover{background: linear-gradient(135deg, #74b7ff, #3b74ff)}
+    .hero{
+      padding:46px 0 26px;
+      display:grid; grid-template-columns: 1.15fr .85fr;
+      gap:22px; align-items:stretch;
+    }
+    .hero-card{
+      background: rgba(16,26,46,.72);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 240px at 20% 0%, rgba(90,167,255,.25), transparent 55%),
+                  radial-gradient(600px 240px at 80% 10%, rgba(139,255,204,.18), transparent 55%);
+      opacity:.85; pointer-events:none;
+    }
+    .hero-card > *{position:relative}
+    .kicker{
+      display:inline-flex; gap:8px; align-items:center;
+      font-size:12px; font-weight:900;
+      color:rgba(255,255,255,.85);
+      padding:8px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      margin-bottom:14px;
+    }
+    h1{margin:0 0 10px; font-size:40px; line-height:1.15; letter-spacing:.2px}
+    .sub{margin:0 0 14px; color:var(--muted); font-size:16px; max-width:56ch}
+    .value{margin:0 0 18px; font-weight:800; font-size:16px}
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .note{margin:10px 0 0; color:rgba(159,176,208,.85); font-size:12px}
+    .side{
+      display:grid; gap:14px;
+      align-content:start;
+    }
+    .mini{
+      background: rgba(16,26,46,.60);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+    .mini h3{margin:0 0 6px; font-size:14px}
+    .mini p{margin:0; color:var(--muted); font-size:13px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    section{margin-top:26px}
+    .section-title{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .section-sub{margin:0 0 14px; color:var(--muted); font-size:14px}
+    .panel{
+      background: rgba(16,26,46,.55);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    .list{margin:0; padding-left:18px; color:rgba(239,245,255,.95)}
+    .list li{margin:8px 0}
+    .muted{color:var(--muted)}
+    .features{
+      grid-column: 1 / -1;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .feat{
+      background: rgba(16,26,46,.55);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+    .feat h4{margin:0 0 8px; font-size:14px}
+    .feat ul{margin:0; padding-left:18px; color:var(--muted); font-size:13px}
+    .quote{
+      border-left:3px solid rgba(90,167,255,.65);
+      padding:14px 14px 14px 16px;
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      margin-top:12px;
+      font-weight:900;
+    }
+    .steps{
+      display:grid; grid-template-columns: repeat(4,1fr); gap:14px;
+    }
+    .step{background: rgba(16,26,46,.55); border:1px solid var(--line); border-radius:var(--radius); padding:16px}
+    .badge{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:28px; height:28px; border-radius:10px;
+      background: rgba(90,167,255,.18);
+      border:1px solid rgba(90,167,255,.35);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .cta2{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      padding:18px;
+      background: linear-gradient(135deg, rgba(90,167,255,.16), rgba(139,255,204,.10));
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:var(--radius);
+    }
+    footer{
+      margin-top:26px;
+      padding-top:18px;
+      border-top:1px solid var(--line);
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+      color:rgba(159,176,208,.9);
+      font-size:12px;
+    }
+    .links{display:flex; gap:12px; flex-wrap:wrap}
+    .links a{color:rgba(159,176,208,.9); text-decoration:none}
+    .links a:hover{color:var(--text)}
+    .small{font-size:12px; color:rgba(159,176,208,.9)}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color:rgba(239,245,255,.95);
+      font-size:12px; font-weight:800;
+    }
+    .divider{height:1px; background:var(--line); margin:14px 0}
+    .contact{
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+    }
+    .input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    .input::placeholder{color:rgba(159,176,208,.75)}
+    .form-row{display:flex; gap:12px; flex-wrap:wrap}
+    .form-row > *{flex:1}
+    .msg{
+      min-height:110px;
+      resize:vertical;
+    }
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr; padding-top:28px}
+      .features{grid-template-columns:1fr}
+      .two-col{grid-template-columns:1fr}
+      .steps{grid-template-columns:1fr 1fr}
+      .contact{grid-template-columns:1fr}
+      header{position:relative}
+      nav{display:none}
+      h1{font-size:34px}
+    }
+  </style>
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, sans-serif; padding:40px">
-  <h1>Emlak Asistanı</h1>
-  <p>Landing page yayında.</p>
+
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#top" aria-label="Emlak Asistanı">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <b>Emlak Asistanı</b><br />
+          <span class="small">Tarayıcı içinde ilan • CRM • fiyatlama</span>
+        </div>
+      </a>
+
+      <nav aria-label="Site menüsü">
+        <a href="#ozellikler">Özellikler</a>
+        <a href="#nasil-calisir">Nasıl çalışır</a>
+        <a href="#kimler-icin">Kimler için</a>
+        <a href="#guven">Güven</a>
+      </nav>
+
+      <a class="btn primary" href="#erken-erisim">Erken Erişim</a>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-card">
+          <div class="kicker">
+            <span class="pill">Kapalı Beta</span>
+            <span class="muted">Sınırlı kullanıcı • Hızlı kurulum</span>
+          </div>
+
+          <h1>Emlak Asistanı</h1>
+          <p class="sub">
+            Gayrimenkul profesyonelleri için akıllı ilan, CRM ve fiyatlama platformu.
+            İlan analizi, m² hesaplama, emsal kıyas, CRM ve PDF sunumları tek yerde.
+          </p>
+
+          <p class="value">Manuel iş yükünü azaltır, hatayı düşürür, karar hızını artırır.</p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="#erken-erisim">Erken Erişim Talep Et</a>
+            <a class="btn" href="#ozellikler">Ürünü İncele</a>
+          </div>
+          <p class="note">Not: Bu sayfa şu an “ilk sürüm”dür. İçerik ve görseller kapalı beta ilerledikçe güncellenecektir.</p>
+        </div>
+
+        <aside class="side" aria-label="Hızlı özet">
+          <div class="mini">
+            <h3>Tek ekran</h3>
+            <p>İlan sayfasının üstünde çalışır. Veri olduğu yerde toplanır ve analiz edilir.</p>
+          </div>
+          <div class="mini">
+            <h3>Deterministik yaklaşım</h3>
+            <p>m², emsal ve oranlar “matematikle” hesaplanır. AI sadece destek rolünde.</p>
+          </div>
+          <div class="mini">
+            <h3>Sunuma hazır</h3>
+            <p>Harita, emsal listesi, QR ve özetlerle profesyonel PDF çıktısı.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="grid" id="problem-cozum">
+        <div class="panel" style="grid-column: 1 / -1;">
+          <h2 class="section-title">Sorun → Çözüm</h2>
+          <p class="section-sub">Dağınık süreçleri tek akışta standardize eder.</p>
+
+          <div class="two-col">
+            <div>
+              <h3 class="section-title" style="font-size:14px; margin-top:0;">Bugünkü problemler</h3>
+              <ul class="list">
+                <li>İlan sitelerinde manuel hesaplama ve not alma</li>
+                <li>Yanlış m² / fiyat / emsal karşılaştırmaları</li>
+                <li>CRM, not, PDF, WhatsApp dağınıklığı</li>
+                <li>Her danışmanın kendi Excel’i, kendi yöntemi</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="section-title" style="font-size:14px; margin-top:0;">Emlak Asistanı çözümü</h3>
+              <ul class="list">
+                <li>İlan verisini bulunduğu yerde okuyup normalize eder</li>
+                <li>Emsal kıyasını tek sepette toplar</li>
+                <li>CRM, hatırlatıcı ve notları ilan bazında birleştirir</li>
+                <li>Raporu tek tık PDF’e çevirir</li>
+              </ul>
+              <div class="quote">
+                “Gayrimenkul danışmanı gerektiğinde alma veya satma diyebilen kişidir”
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ozellikler">
+        <h2 class="section-title">Modüller</h2>
+        <p class="section-sub">Çekirdek iş akışı: ilan → analiz → emsal → CRM → PDF.</p>
+
+        <div class="features">
+          <div class="feat">
+            <h4>İlan Analizi</h4>
+            <ul>
+              <li>Otomatik m² fiyatı</li>
+              <li>Net / brüt ayrımı</li>
+              <li>İlan başlığı ve içerik çözümleme</li>
+            </ul>
+          </div>
+
+          <div class="feat">
+            <h4>Emsal Kıyas</h4>
+            <ul>
+              <li>Seç – sepete ekle – karşılaştır</li>
+              <li>Konum + fiyat + m² bazlı analiz</li>
+              <li>Deterministik karşılaştırma</li>
+            </ul>
+          </div>
+
+          <div class="feat">
+            <h4>CRM</h4>
+            <ul>
+              <li>İlan bazlı müşteri kaydı</li>
+              <li>Konut / arsa / işyeri ayrımı</li>
+              <li>Notlar, yıldızlama, hatırlatmalar</li>
+            </ul>
+          </div>
+
+          <div class="feat">
+            <h4>PDF & Sunum</h4>
+            <ul>
+              <li>Tek tık PDF</li>
+              <li>Harita, emsal listesi, QR</li>
+              <li>Marka uyumlu şablonlar</li>
+            </ul>
+          </div>
+
+          <div class="feat">
+            <h4>AI Destek</h4>
+            <ul>
+              <li>İlan özetleme</li>
+              <li>Müşteri diliyle açıklama</li>
+              <li>İçerik önerileri (kontrollü)</li>
+            </ul>
+          </div>
+
+          <div class="feat">
+            <h4>Güvenli Mimari</h4>
+            <ul>
+              <li>Cloudflare Pages + SSL</li>
+              <li>Yerel odaklı veri yaklaşımı</li>
+              <li>İzinsiz veri paylaşımı yok</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="nasil-calisir">
+        <h2 class="section-title">Nasıl çalışır?</h2>
+        <p class="section-sub">Kurulum minimum, akış maksimum net.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="badge">1</div>
+            <b>Kur</b>
+            <p class="muted" style="margin:6px 0 0;">Tarayıcı eklentisini ekle.</p>
+          </div>
+          <div class="step">
+            <div class="badge">2</div>
+            <b>İlana gir</b>
+            <p class="muted" style="margin:6px 0 0;">Veri sayfada okunur ve normalize edilir.</p>
+          </div>
+          <div class="step">
+            <div class="badge">3</div>
+            <b>Analiz & CRM</b>
+            <p class="muted" style="margin:6px 0 0;">m², emsal, notlar, hatırlatmalar tek yerde.</p>
+          </div>
+          <div class="step">
+            <div class="badge">4</div>
+            <b>PDF paylaş</b>
+            <p class="muted" style="margin:6px 0 0;">Sunuma hazır raporu üret ve gönder.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="kimler-icin">
+        <h2 class="section-title">Kimler için?</h2>
+        <p class="section-sub">Veriyle çalışmak isteyen, standardı yükseltmek isteyen ekipler için.</p>
+
+        <div class="two-col">
+          <div class="panel">
+            <ul class="list" style="margin:0;">
+              <li>Gayrimenkul danışmanları</li>
+              <li>Ofis sahipleri</li>
+              <li>Portföy yöneticileri</li>
+              <li>Yatırım odaklı danışmanlar</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <b>Not</b>
+            <p class="muted" style="margin:8px 0 0;">
+              Bu bir “AI oyuncağı” değil. Karar mekanizmasını matematikle kurar; AI sadece hızlandırır.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="guven">
+        <h2 class="section-title">Güven & Altyapı</h2>
+        <p class="section-sub">Basit, hızlı, izlenebilir ve sürdürülebilir.</p>
+
+        <div class="panel">
+          <div class="two-col">
+            <div>
+              <ul class="list" style="margin:0;">
+                <li>Cloudflare Pages (statik yayın)</li>
+                <li>SSL varsayılan</li>
+                <li>Performans ve güvenlik katmanı</li>
+              </ul>
+            </div>
+            <div>
+              <ul class="list" style="margin:0;">
+                <li>Yerel odaklı veri yaklaşımı</li>
+                <li>İzinsiz veri paylaşımı yok</li>
+                <li>Modüler yapı: ihtiyaç oldukça genişler</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="erken-erisim">
+        <h2 class="section-title">Kapalı Beta – Erken Erişim</h2>
+        <p class="section-sub">İletişim bilgini bırak; erken erişim açıldığında dönüş yapalım.</p>
+
+        <!-- Basit form: şimdilik mailto. İstersen sonra gerçek waitlist endpoint'e bağlarız. -->
+        <div class="panel">
+          <form action="mailto:info@emlakasistani.me" method="post" enctype="text/plain">
+            <div class="contact">
+              <input class="input" name="name" placeholder="Ad Soyad" />
+              <input class="input" name="email" placeholder="E-posta" />
+            </div>
+            <div class="divider"></div>
+            <textarea class="input msg" name="message" placeholder="Kısaca: hangi il/ilçe, hangi segment (konut/arsa/işyeri), beklentin nedir?"></textarea>
+            <div class="form-row" style="margin-top:12px;">
+              <button class="btn primary" type="submit">Erken Erişim Talep Et</button>
+              <a class="btn" href="#top">Yukarı çık</a>
+            </div>
+            <p class="note">Gönderim mail uygulamanızla açılır. İsterseniz bu formu gerçek bir bekleme listesine (Worker/API) bağlarız.</p>
+          </form>
+        </div>
+
+        <div class="cta2" style="margin-top:14px;">
+          <div>
+            <b>Hedef:</b> Analiz standardı + hız + sunum kalitesi<br />
+            <span class="muted">İlan bakma süresini analiz süresine çevir.</span>
+          </div>
+          <a class="btn primary" href="#erken-erisim">Erken Erişim</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="y"></span> emlakasistani.me</div>
+      <div class="links">
+        <a href="#guven">Güven</a>
+        <a href="#erken-erisim">İletişim</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
