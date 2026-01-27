@@ -229,6 +229,79 @@
       border:1px solid var(--line);
       border-radius:var(--radius);
     }
+    .shots{
+      display:grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap:12px;
+    }
+    .shot{
+      display:block;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+      background:#ffffff;
+      box-shadow:var(--shadow);
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .shot:hover{transform: translateY(-2px); border-color:#cfd3da; box-shadow:0 14px 30px rgba(18,20,24,.12)}
+    .shot img{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background: rgba(10,12,16,.75);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .2s ease;
+      z-index:999;
+    }
+    .lightbox:target{
+      opacity:1;
+      pointer-events:auto;
+    }
+    .lightbox figure{
+      margin:0;
+      max-width: min(1100px, 94vw);
+      max-height: 80vh;
+      background:#ffffff;
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      position:relative;
+    }
+    .lightbox img{
+      display:block;
+      width:100%;
+      height:auto;
+      max-height:80vh;
+      object-fit:contain;
+      background:#ffffff;
+    }
+    .lightbox .close{
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:34px;
+      height:34px;
+      border-radius:999px;
+      background:#ffffff;
+      border:1px solid var(--line);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:800;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 6px 16px rgba(0,0,0,.15);
+    }
     footer{
       margin-top:26px;
       padding-top:18px;
@@ -277,10 +350,14 @@
       .features{grid-template-columns:1fr}
       .two-col{grid-template-columns:1fr}
       .steps{grid-template-columns:1fr 1fr}
+      .shots{grid-template-columns: repeat(2, 1fr)}
       .contact{grid-template-columns:1fr}
       header{position:relative}
       nav{display:none}
       h1{font-size:34px}
+    }
+    @media (max-width: 560px){
+      .shots{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -480,6 +557,29 @@
         </div>
       </section>
 
+      <section id="ekran-goruntuleri">
+        <h2 class="section-title">Ekran Görüntüleri</h2>
+        <p class="section-sub">Ürünün arayüzüne hızlı bir bakış.</p>
+
+        <div class="shots" aria-label="Ekran görüntüleri galerisi">
+          <a class="shot" href="#shot-1">
+            <img src="01.png" alt="Ekran görüntüsü 01" loading="lazy" decoding="async" />
+          </a>
+          <a class="shot" href="#shot-2">
+            <img src="02.png" alt="Ekran görüntüsü 02" loading="lazy" decoding="async" />
+          </a>
+          <a class="shot" href="#shot-3">
+            <img src="03.png" alt="Ekran görüntüsü 03" loading="lazy" decoding="async" />
+          </a>
+          <a class="shot" href="#shot-4">
+            <img src="04.png" alt="Ekran görüntüsü 04" loading="lazy" decoding="async" />
+          </a>
+          <a class="shot" href="#shot-5">
+            <img src="05.png" alt="Ekran görüntüsü 05" loading="lazy" decoding="async" />
+          </a>
+        </div>
+      </section>
+
       <section id="kimler-icin">
         <h2 class="section-title">Kimler İçin</h2>
         <p class="section-sub">Veriyle çalışmak isteyen, standardı yükseltmek isteyen ekipler için.</p>
@@ -532,7 +632,7 @@
 
         <!-- Basit form: şimdilik mailto. İstersen sonra gerçek waitlist endpoint'e bağlarız. -->
         <div class="panel">
-          <form action="mailto:badempetshop@gmail.com" method="post" enctype="text/plain">
+          <form action="mailto:info@emlakasistani.me" method="post" enctype="text/plain">
             <div class="contact">
               <input class="input" name="name" placeholder="Ad Soyad" />
               <input class="input" name="email" placeholder="E-posta" />
@@ -570,6 +670,37 @@
         <a href="#erken-erisim">İletişim</a>
       </div>
     </footer>
+  </div>
+
+  <div class="lightbox" id="shot-1">
+    <a class="close" href="#ekran-goruntuleri" aria-label="Kapat">✕</a>
+    <figure>
+      <img src="01.png" alt="Ekran görüntüsü 01 büyük görünüm" loading="eager" decoding="async" />
+    </figure>
+  </div>
+  <div class="lightbox" id="shot-2">
+    <a class="close" href="#ekran-goruntuleri" aria-label="Kapat">✕</a>
+    <figure>
+      <img src="02.png" alt="Ekran görüntüsü 02 büyük görünüm" loading="eager" decoding="async" />
+    </figure>
+  </div>
+  <div class="lightbox" id="shot-3">
+    <a class="close" href="#ekran-goruntuleri" aria-label="Kapat">✕</a>
+    <figure>
+      <img src="03.png" alt="Ekran görüntüsü 03 büyük görünüm" loading="eager" decoding="async" />
+    </figure>
+  </div>
+  <div class="lightbox" id="shot-4">
+    <a class="close" href="#ekran-goruntuleri" aria-label="Kapat">✕</a>
+    <figure>
+      <img src="04.png" alt="Ekran görüntüsü 04 büyük görünüm" loading="eager" decoding="async" />
+    </figure>
+  </div>
+  <div class="lightbox" id="shot-5">
+    <a class="close" href="#ekran-goruntuleri" aria-label="Kapat">✕</a>
+    <figure>
+      <img src="05.png" alt="Ekran görüntüsü 05 büyük görünüm" loading="eager" decoding="async" />
+    </figure>
   </div>
 
   <script>
