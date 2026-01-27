@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="Emlak Asistanı">
+  <rect width="192" height="192" rx="38" fill="#0b1220" />
+  <rect x="24" y="24" width="144" height="144" rx="30" fill="#101a2e" stroke="#1f2a44" />
+  <text x="96" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="#eef3ff">EA</text>
+  <rect x="54" y="132" width="84" height="8" rx="4" fill="#5aa7ff" />
+</svg>
