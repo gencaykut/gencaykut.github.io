@@ -558,6 +558,12 @@ textarea:focus {
   font-weight: 700;
 }
 
+#detailUserId {
+  font-size: 0.5em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
 .detail-section {
   padding-top: 4px;
 }
