@@ -255,7 +255,7 @@
     meta.className = "user-meta";
     meta.innerHTML = `
       <span>Son giris: ${escapeHtml(formatDate(user.lastLoginAt))}</span>
-      <strong>${escapeHtml(user.id)}</strong>
+      <span class="user-id">${escapeHtml(user.id)}</span>
     `;
 
     const plan = document.createElement("div");
