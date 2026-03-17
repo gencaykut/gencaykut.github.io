@@ -64,6 +64,7 @@
         <ul class="admin-check-list">
           <li>Kullanici lookup</li>
           <li>Plan guncelleme</li>
+          <li>Sifre sifirlama</li>
           <li>JWT token uretimi</li>
           <li>Global AI toggle</li>
         </ul>
@@ -132,6 +133,26 @@
           </div>
           <div class="admin-actions">
             <button class="admin-btn admin-btn-primary" type="submit">Aboneligi Kaydet</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="admin-card">
+        <div class="admin-card-head">
+          <div>
+            <p class="admin-eyebrow">Sifre</p>
+            <h2>Sifre Sifirla</h2>
+            <p class="admin-card-note">Secili kullanici icin yeni sifre atar. Mevcut sifre goruntulenemez.</p>
+          </div>
+        </div>
+
+        <form id="passwordResetForm" class="admin-form">
+          <div class="admin-field">
+            <label for="newPassword">Yeni Sifre</label>
+            <input id="newPassword" name="newPassword" type="password" minlength="8" placeholder="En az 8 karakter" autocomplete="new-password">
+          </div>
+          <div class="admin-actions">
+            <button class="admin-btn admin-btn-primary" type="submit">Sifreyi Guncelle</button>
           </div>
         </form>
       </section>

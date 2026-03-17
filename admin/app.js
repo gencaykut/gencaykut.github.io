@@ -13,6 +13,7 @@
     selectedUserCard: document.getElementById("selectedUserCard"),
     userStateBadge: document.getElementById("userStateBadge"),
     subscriptionForm: document.getElementById("subscriptionForm"),
+    passwordResetForm: document.getElementById("passwordResetForm"),
     issueTokenBtn: document.getElementById("issueTokenBtn"),
     copyTokenBtn: document.getElementById("copyTokenBtn"),
     tokenOutput: document.getElementById("tokenOutput"),
@@ -113,6 +114,10 @@
 
   async function issueToken(payload) {
     return apiRequest("/tokens/issue", { method: "POST", body: payload });
+  }
+
+  async function resetPassword(payload) {
+    return apiRequest("/users/reset-password", { method: "POST", body: payload });
   }
 
   async function getAiState() {
@@ -240,6 +245,34 @@
           setStatus("Yeni token uretildi.", "success");
         } catch (error) {
           setStatus(error instanceof Error ? error.message : "Token uretilemedi.", "error");
+        }
+      });
+    }
+
+    if (els.passwordResetForm) {
+      els.passwordResetForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!state.selectedUser) {
+          setStatus("Sifre sifirlama icin once kullanici secin.", "error");
+          return;
+        }
+
+        const data = new FormData(event.currentTarget);
+        const password = String(data.get("newPassword") || "");
+        if (password.length < 8) {
+          setStatus("Yeni sifre en az 8 karakter olmali.", "error");
+          return;
+        }
+
+        setStatus("Kullanici sifresi guncelleniyor...", "neutral");
+        try {
+          const result = await resetPassword({ userId: state.selectedUser.id, password });
+          state.selectedUser = result.user || state.selectedUser;
+          renderSelectedUser();
+          event.currentTarget.reset();
+          setStatus("Kullanici sifresi guncellendi.", "success");
+        } catch (error) {
+          setStatus(error instanceof Error ? error.message : "Sifre guncellenemedi.", "error");
         }
       });
     }
