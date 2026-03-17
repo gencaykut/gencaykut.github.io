@@ -391,9 +391,9 @@ textarea:focus {
 
 .user-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(220px, 1fr) minmax(190px, 0.7fr) auto;
+  grid-template-columns: minmax(320px, 1.35fr) minmax(220px, 0.9fr) auto;
   gap: 14px;
-  align-items: center;
+  align-items: start;
   padding: 16px;
   border-radius: 22px;
   border: 1px solid rgba(36, 31, 27, 0.08);
@@ -405,10 +405,17 @@ textarea:focus {
   box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.16);
 }
 
+.user-main,
+.user-meta,
+.user-plan-stack {
+  min-width: 0;
+}
+
 .user-main strong,
 .user-meta strong {
   display: block;
   font-size: 16px;
+  line-height: 1.15;
 }
 
 .user-main span,
@@ -416,6 +423,24 @@ textarea:focus {
 .detail-email,
 .muted-line {
   color: var(--muted);
+}
+
+.user-main span,
+.user-meta span {
+  display: block;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.user-main {
+  display: grid;
+  gap: 8px;
+}
+
+.user-meta {
+  display: grid;
+  gap: 10px;
+  align-content: start;
 }
 
 .user-plan-stack {
@@ -454,6 +479,8 @@ textarea:focus {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
+  align-items: flex-start;
+  max-width: 360px;
 }
 
 .mini-btn {
