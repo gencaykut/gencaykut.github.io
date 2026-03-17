@@ -274,10 +274,8 @@
         renderSelectedUser();
         setStatus(`${user.email} secildi.`, "neutral");
       }),
-      makeActionButton("Pro Ver", "mini-btn-accent", () => openPlanModal("pro", user)),
-      makeActionButton("Enterprise", "mini-btn-gold", () => openPlanModal("enterprise", user)),
-      makeActionButton("Free Yap", "mini-btn-danger", () => openPlanModal("free", user)),
-      makeActionButton("Sifre", "", () => openPasswordModal(user))
+      makeActionButton("Uyelik Planlari", "mini-btn-accent", () => openPlanPickerModal(user)),
+      makeActionButton("Sifre Degistir", "", () => openPasswordModal(user))
     );
 
     row.append(main, meta, plan, actions);
@@ -368,6 +366,28 @@
         renderUsers();
         renderSelectedUser();
         setStatus(`${user.email} icin plan guncellendi.`, "success");
+        closeModal();
+      },
+    };
+    renderModal();
+  }
+
+  function openPlanPickerModal(user) {
+    state.modal = {
+      type: "plan-picker",
+      userId: user.id,
+      kicker: "Membership",
+      title: "Uyelik Planlari",
+      description: `${user.email} icin uygulanacak plan tipini sec.`,
+      submitLabel: "Kapat",
+      fieldsHtml: `
+        <div class="detail-actions">
+          <button class="secondary-btn" type="button" data-plan-option="free">Free</button>
+          <button class="secondary-btn" type="button" data-plan-option="pro">Pro</button>
+          <button class="secondary-btn" type="button" data-plan-option="enterprise">Enterprise</button>
+        </div>
+      `,
+      onSubmit: async () => {
         closeModal();
       },
     };
@@ -553,10 +573,20 @@
     if (els.modalFields) {
       els.modalFields.addEventListener("click", (event) => {
         const btn = event.target.closest("[data-day-preset]");
-        if (!btn) return;
-        const day = btn.getAttribute("data-day-preset");
-        const input = document.getElementById("modalDurationDays");
-        if (input) input.value = day || "30";
+        if (btn) {
+          const day = btn.getAttribute("data-day-preset");
+          const input = document.getElementById("modalDurationDays");
+          if (input) input.value = day || "30";
+          return;
+        }
+
+        const planBtn = event.target.closest("[data-plan-option]");
+        if (planBtn) {
+          const plan = planBtn.getAttribute("data-plan-option");
+          const user = state.users.find((item) => item.id === state.modal?.userId);
+          if (!plan || !user) return;
+          openPlanModal(plan, user);
+        }
       });
     }
 
