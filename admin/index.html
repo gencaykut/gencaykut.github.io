@@ -7,212 +7,205 @@
   <link rel="stylesheet" href="./app.css">
 </head>
 <body>
-  <div class="admin-shell">
-    <header class="admin-topbar">
-      <div>
-        <p class="admin-kicker">Admin Paneli</p>
-        <h1>Emlak Asistani Control Room</h1>
-        <p class="admin-subtitle">Kullanici lookup, abonelik islemleri, token uretimi ve global AI kontrolu.</p>
-        <div class="admin-pill-row">
-          <span class="admin-pill">GitHub Pages UI</span>
-          <span class="admin-pill">Cloudflare Worker API</span>
-          <span class="admin-pill">Manual support flow</span>
-        </div>
-      </div>
-      <a class="admin-link" href="/">Ana siteye don</a>
-    </header>
+  <div class="admin-app">
+    <div class="admin-stage"></div>
 
-    <main class="admin-grid">
-      <section class="admin-card admin-card-wide">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Kullanici Lookup</p>
-            <h2>Kullanici Bul</h2>
-            <p class="admin-card-note">V1 panelin giris noktasi. Email veya userId ile tek kullanici lookup yapar.</p>
-          </div>
-          <span class="admin-badge admin-badge-muted">V1</span>
+    <section id="authGate" class="gate-shell">
+      <div class="gate-panel">
+        <div class="gate-top">
+          <p class="gate-kicker">Access Cleared</p>
+          <h1>Control Room</h1>
+          <p class="gate-copy">Zero Trust katmani gecildi. Panele devam etmek icin ikinci guvenlik adimi olarak `Admin Secret` dogrulamasi gerekli.</p>
         </div>
 
-        <form id="userSearchForm" class="admin-form">
-          <div class="admin-field">
-            <label for="adminSecret">Admin Secret</label>
-            <input id="adminSecret" name="adminSecret" type="password" placeholder="X-Admin-Secret" autocomplete="off" spellcheck="false">
-            <small class="admin-help">Secret yalnizca bu sekmenin session'i icin tutulur; sayfa kapandiginda tekrar girilmelidir.</small>
-          </div>
-          <div class="admin-field">
-            <label for="searchEmail">Email</label>
-            <input id="searchEmail" name="searchEmail" type="email" placeholder="user@example.com">
-          </div>
-          <div class="admin-field">
-            <label for="searchUserId">User ID</label>
-            <input id="searchUserId" name="searchUserId" type="text" placeholder="usr_xxx">
-          </div>
-          <div class="admin-actions">
-            <button class="admin-btn admin-btn-primary" type="submit">Kullaniciyi Getir</button>
-            <button class="admin-btn" type="button" id="clearSelectionBtn">Temizle</button>
-          </div>
-        </form>
-      </section>
-
-      <aside class="admin-card admin-side-stack">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Scope</p>
-            <h2>Bu Surum</h2>
-          </div>
-        </div>
-        <ul class="admin-check-list">
-          <li>Kullanici lookup</li>
-          <li>Plan guncelleme</li>
-          <li>Sifre sifirlama</li>
-          <li>JWT token uretimi</li>
-          <li>Global AI toggle</li>
-        </ul>
-        <div class="admin-mini-panel">
-          <p class="admin-inline-label">Not</p>
-          <strong>Listeleme ve audit log bu surume dahil degil.</strong>
-        </div>
-      </aside>
-
-      <section class="admin-card">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Secili Kullanici</p>
-            <h2>Ozet</h2>
-            <p class="admin-card-note">Lookup sonrasi tum islemler bu karttaki secili kullanici uzerinden calisir.</p>
-          </div>
-          <span id="userStateBadge" class="admin-badge">Hazir</span>
-        </div>
-
-        <div id="selectedUserEmpty" class="admin-empty">
-          Henuz bir kullanici secilmedi.
-        </div>
-
-        <dl id="selectedUserCard" class="admin-detail-list" hidden>
-          <div><dt>ID</dt><dd id="userIdValue">-</dd></div>
-          <div><dt>Email</dt><dd id="userEmailValue">-</dd></div>
-          <div><dt>Ad Soyad</dt><dd id="userFullNameValue">-</dd></div>
-          <div><dt>Telefon</dt><dd id="userPhoneValue">-</dd></div>
-          <div><dt>Plan</dt><dd id="userPlanValue">-</dd></div>
-          <div><dt>Durum</dt><dd id="userPlanStatusValue">-</dd></div>
-          <div><dt>Bitis</dt><dd id="userEndsAtValue">-</dd></div>
-          <div><dt>Kalan Gun</dt><dd id="userRemainingDaysValue">-</dd></div>
-        </dl>
-      </section>
-
-      <section class="admin-card">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Abonelik</p>
-            <h2>Plan Guncelle</h2>
-            <p class="admin-card-note">Plan, status ve opsiyonel sure guncellenir. Sonuc tekrar kullanici kartina yansir.</p>
-          </div>
-        </div>
-
-        <form id="subscriptionForm" class="admin-form">
-          <div class="admin-field">
-            <label for="planSelect">Plan</label>
-            <select id="planSelect" name="plan">
-              <option value="free">free</option>
-              <option value="pro">pro</option>
-              <option value="enterprise">enterprise</option>
-            </select>
-          </div>
-          <div class="admin-field">
-            <label for="statusSelect">Status</label>
-            <select id="statusSelect" name="status">
-              <option value="active">active</option>
-              <option value="trialing">trialing</option>
-              <option value="past_due">past_due</option>
-              <option value="cancelled">cancelled</option>
-            </select>
-          </div>
-          <div class="admin-field">
-            <label for="durationDays">Duration Days</label>
-            <input id="durationDays" name="durationDays" type="number" min="1" placeholder="30">
-          </div>
-          <div class="admin-actions">
-            <button class="admin-btn admin-btn-primary" type="submit">Aboneligi Kaydet</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="admin-card">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Sifre</p>
-            <h2>Sifre Sifirla</h2>
-            <p class="admin-card-note">Secili kullanici icin yeni sifre atar. Mevcut sifre goruntulenemez.</p>
-          </div>
-        </div>
-
-        <form id="passwordResetForm" class="admin-form">
-          <div class="admin-field">
-            <label for="newPassword">Yeni Sifre</label>
-            <input id="newPassword" name="newPassword" type="password" minlength="8" placeholder="En az 8 karakter" autocomplete="new-password">
-          </div>
-          <div class="admin-actions">
-            <button class="admin-btn admin-btn-primary" type="submit">Sifreyi Guncelle</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="admin-card">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">JWT</p>
-            <h2>Token Uret</h2>
-            <p class="admin-card-note">Destek veya test amacli yeni kullanici token'i uretir.</p>
-          </div>
-        </div>
-
-        <div class="admin-stack">
-          <button class="admin-btn admin-btn-primary" id="issueTokenBtn" type="button">Yeni Token Uret</button>
-          <label class="admin-field">
-            <span>Son Token</span>
-            <textarea id="tokenOutput" rows="6" placeholder="Uretilen token burada gorunecek"></textarea>
+        <form id="authForm" class="gate-form">
+          <label class="gate-field">
+            <span>Admin Secret</span>
+            <input id="adminSecret" name="adminSecret" type="password" placeholder="X-Admin-Secret" autocomplete="current-password" spellcheck="false">
           </label>
-          <div class="admin-actions">
-            <button class="admin-btn" id="copyTokenBtn" type="button">Kopyala</button>
+          <div class="gate-actions">
+            <button class="gate-btn gate-btn-primary" id="authSubmitBtn" type="submit">Dogrula ve Panele Gir</button>
           </div>
-        </div>
-      </section>
+        </form>
 
-      <section class="admin-card admin-card-wide">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Global Feature</p>
-            <h2>AI Toggle</h2>
-            <p class="admin-card-note">Sistem genelinde AI ozelligini acip kapatir.</p>
+        <div id="authStatus" class="gate-status">Secret dogrulaninca kullanici listesi ve hizli aksiyon paneli acilacak.</div>
+      </div>
+    </section>
+
+    <div id="adminShell" class="shell" hidden>
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="hero-kicker">Admin Panel</p>
+          <h1>User List</h1>
+          <p class="hero-subtitle">Uyelik operasyonlari, sifre sifirlama ve destek akislarini tek listede hizlandiran operator arayuzu.</p>
+          <div class="hero-pills">
+            <span class="hero-pill">Zero Trust Protected</span>
+            <span class="hero-pill">Manual Support Flow</span>
+            <span class="hero-pill">Cloud Worker API</span>
           </div>
-          <span id="aiStateBadge" class="admin-badge admin-badge-muted">Bilinmiyor</span>
         </div>
 
-        <div class="admin-inline-panel">
-          <div>
-            <p class="admin-inline-label">Mevcut AI Durumu</p>
-            <strong id="aiEnabledValue">Kontrol edilmedi</strong>
+        <div class="hero-side">
+          <div class="hero-session">
+            <span class="hero-session-label">Session</span>
+            <strong>Admin Secret Active</strong>
           </div>
-          <div class="admin-actions">
-            <button class="admin-btn" id="refreshAiBtn" type="button">Durumu Oku</button>
-            <button class="admin-btn admin-btn-primary" id="toggleAiBtn" type="button">Ac / Kapat</button>
+          <div class="hero-links">
+            <a class="hero-link" href="/">Ana siteye don</a>
+            <button class="hero-link hero-link-button" id="lockPanelBtn" type="button">Kilitle</button>
           </div>
         </div>
-      </section>
+      </header>
 
-      <section class="admin-card admin-card-wide">
-        <div class="admin-card-head">
-          <div>
-            <p class="admin-eyebrow">Islem Akisi</p>
-            <h2>Durum ve Log</h2>
-            <p class="admin-card-note">Operator'un o an ne oldugunu tek yerden izlemesi icin canli durum kutusu.</p>
+      <main class="layout">
+        <section class="panel panel-main">
+          <div class="panel-head panel-head-spread">
+            <div>
+              <p class="panel-kicker">Operators</p>
+              <h2>Search And Filter</h2>
+            </div>
+            <button class="ghost-btn" id="refreshUsersBtn" type="button">Listeyi Yenile</button>
           </div>
+
+          <form id="searchForm" class="toolbar">
+            <label class="toolbar-search">
+              <span class="sr-only">Arama</span>
+              <input id="searchQuery" name="searchQuery" type="text" placeholder="Email, userId veya ad soyad ara">
+            </label>
+            <label class="toolbar-select">
+              <span>Plan</span>
+              <select id="planFilter" name="planFilter">
+                <option value="all">Tum planlar</option>
+                <option value="free">Free</option>
+                <option value="pro">Pro</option>
+                <option value="enterprise">Enterprise</option>
+              </select>
+            </label>
+            <label class="toolbar-select">
+              <span>Durum</span>
+              <select id="statusFilter" name="statusFilter">
+                <option value="all">Tum durumlar</option>
+                <option value="active">Aktif</option>
+                <option value="trialing">Trial</option>
+                <option value="past_due">Gecikmis</option>
+                <option value="cancelled">Iptal</option>
+              </select>
+            </label>
+            <button class="primary-btn" type="submit">Listele</button>
+          </form>
+
+          <div class="list-head">
+            <div>
+              <p class="panel-kicker">Roster</p>
+              <h2>Kullanici Listesi</h2>
+            </div>
+            <div id="userCountBadge" class="metric-chip">0 kullanici</div>
+          </div>
+
+          <div id="userListEmpty" class="empty-state">
+            Secret dogrulamasindan sonra kullanici listesi burada gorunecek.
+          </div>
+
+          <div id="userList" class="user-list" hidden></div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="panel detail-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">Selected User</p>
+                <h2>Detay Drawer</h2>
+              </div>
+              <span id="selectedPlanBadge" class="plan-pill plan-pill-muted">Hazir</span>
+            </div>
+
+            <div id="detailEmpty" class="empty-state">
+              Listeden bir kullanici secildiginde detaylar, plan bilgisi ve destek aksiyonlari burada acilacak.
+            </div>
+
+            <div id="detailCard" class="detail-card" hidden>
+              <div class="detail-top">
+                <div>
+                  <h3 id="detailName">-</h3>
+                  <p id="detailEmail" class="detail-email">-</p>
+                </div>
+              </div>
+
+              <dl class="detail-grid">
+                <div><dt>User ID</dt><dd id="detailUserId">-</dd></div>
+                <div><dt>Telefon</dt><dd id="detailPhone">-</dd></div>
+                <div><dt>Plan</dt><dd id="detailPlan">-</dd></div>
+                <div><dt>Durum</dt><dd id="detailStatus">-</dd></div>
+                <div><dt>Bitis</dt><dd id="detailEndsAt">-</dd></div>
+                <div><dt>Kalan</dt><dd id="detailRemainingDays">-</dd></div>
+                <div><dt>Son Giris</dt><dd id="detailLastLogin">-</dd></div>
+                <div><dt>Kayit</dt><dd id="detailCreatedAt">-</dd></div>
+              </dl>
+
+              <div class="detail-section">
+                <p class="panel-kicker">Quick Actions</p>
+                <div class="detail-actions">
+                  <button class="secondary-btn" id="detailProBtn" type="button">Pro Ver</button>
+                  <button class="secondary-btn" id="detailEnterpriseBtn" type="button">Enterprise Ver</button>
+                  <button class="secondary-btn secondary-btn-danger" id="detailFreeBtn" type="button">Free Yap</button>
+                  <button class="secondary-btn" id="detailPasswordBtn" type="button">Sifre Sifirla</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel meta-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">System Switch</p>
+                <h2>AI Status</h2>
+              </div>
+              <span id="aiStateBadge" class="plan-pill plan-pill-muted">Bilinmiyor</span>
+            </div>
+            <div class="meta-inline">
+              <div>
+                <p class="meta-label">Mevcut Durum</p>
+                <strong id="aiEnabledValue">Kontrol edilmedi</strong>
+              </div>
+              <div class="detail-actions">
+                <button class="ghost-btn" id="refreshAiBtn" type="button">Oku</button>
+                <button class="primary-btn" id="toggleAiBtn" type="button">Degistir</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel status-panel">
+            <div class="panel-head">
+              <div>
+                <p class="panel-kicker">Operator Feed</p>
+                <h2>Durum</h2>
+              </div>
+            </div>
+            <div id="statusBox" class="status-box status-neutral">Panel yeni bilgi mimarisi ile hazirlaniyor.</div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div id="modalBackdrop" class="modal-backdrop" hidden>
+      <section class="modal-card">
+        <div class="panel-head">
+          <div>
+            <p id="modalKicker" class="panel-kicker">Aksiyon</p>
+            <h2 id="modalTitle">Islem</h2>
+          </div>
+          <button class="icon-btn" id="modalCloseBtn" type="button" aria-label="Kapat">×</button>
         </div>
-        <div id="statusBox" class="admin-status admin-status-neutral">
-          Panel iskeleti hazir. Backend entegrasyonu sonraki adimda baglanacak.
-        </div>
+        <p id="modalDescription" class="modal-copy"></p>
+        <form id="modalForm" class="modal-form">
+          <div id="modalFields"></div>
+          <div class="modal-actions">
+            <button class="ghost-btn" id="modalCancelBtn" type="button">Iptal</button>
+            <button class="primary-btn" id="modalSubmitBtn" type="submit">Kaydet</button>
+          </div>
+        </form>
       </section>
-    </main>
+    </div>
   </div>
 
   <script src="./app.js"></script>
